@@ -1,6 +1,7 @@
 import json
 import pygame
 from perceptron import Perceptron
+from neuralnetwork import neuralnetwork
 
 # Initialize pygame
 pygame.init()
@@ -45,28 +46,22 @@ def button_click():
             pixel_array[i][j] = 0
 
 def guess():
-    with open('weights.json', 'r') as f:
-        saved_weights = json.load(f)
-    
-    my_perceptron = Perceptron(saved_weights)
     list_of_pixels = []
     for row in pixel_array:
         list_of_pixels += row
-    print(my_perceptron.activate(list_of_pixels))
+    my_neuralnetwork = neuralnetwork()
+    #my_neuralnetwork.train_and_save()
+    guess = my_neuralnetwork.guess_number(list_of_pixels)
 
 
 # Function to save the pixel array to JSON file
 def save_pixel_array(label):
     with open("data.json", "r") as file:
         data = json.load(file)
-    
-    if label == '0':
-        data['0'].append(pixel_array)
-        print("Saved as 0")
-    elif label == '1':
-        data['1'].append(pixel_array)
-        print("Saved as 1")
-    
+    label = str(label)
+    data[label].append(pixel_array)
+    print(f"Saved as {label}")
+
     with open("data.json", "w") as file:
         json.dump(data, file)
 
@@ -91,7 +86,7 @@ while running:
                 button_click()
             elif event.key == pygame.K_a:
                 guess()
-            elif event.unicode == '0' or event.unicode == '1':
+            elif event.unicode in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
                 save_pixel_array(event.unicode)
     # Update the display
     scaled_surface = pygame.transform.scale(drawing_surface, DISPLAY_SIZE)

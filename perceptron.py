@@ -1,8 +1,9 @@
 class Perceptron:
-    def __init__(self, weights, learningrate = 0.0005):
+    def __init__(self, weights, desired_number, learningrate = 0.000005):
         self.weights = weights
         self.learningrate = learningrate
         self.bias = 1
+        self.desired_number = desired_number
 
     def activate(self, inputs):
         sum = 0
@@ -17,5 +18,7 @@ class Perceptron:
         error = desired - guess;
         if error != 0:
             for i, number in enumerate(inputs):
+                if number == 0:
+                    number = -1
                 self.weights[i-1] += self.learningrate * error * number;
         
