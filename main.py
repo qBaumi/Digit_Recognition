@@ -49,6 +49,7 @@ def guess():
     list_of_pixels = []
     for row in pixel_array:
         list_of_pixels += row
+        #print(row)
     my_neuralnetwork = neuralnetwork()
     #my_neuralnetwork.train_and_save()
     guess = my_neuralnetwork.guess_number(list_of_pixels)
